@@ -18,6 +18,8 @@ body{margin:0;background:#F7F7F9;font-family:-apple-system,'SF Pro Display',syst
 a{color:#6E56CF;text-decoration:none}
 a:hover{color:#5A45A8}
 @keyframes sheetUp{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+input,textarea,select{font-family:inherit;font-size:inherit}
+textarea{resize:vertical}
 </style>
 </helmet>
 <div style="position:relative;min-height:100vh;min-height:100dvh;background:#F7F7F9;max-width:480px;margin:0 auto">
@@ -37,7 +39,9 @@ a:hover{color:#5A45A8}
       </div>
       <div onClick="{{ openNotifications }}" style="width:38px;height:38px;border-radius:19px;background:#fff;border:1px solid rgba(60,60,67,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
         <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M4 13.5V8a5 5 0 0110 0v5.5" stroke="#3C3C43" stroke-width="1.6" stroke-linecap="round"/><path d="M2.5 13.5h13" stroke="#3C3C43" stroke-width="1.6" stroke-linecap="round"/><path d="M7.5 16a1.6 1.6 0 003 0" stroke="#3C3C43" stroke-width="1.6" stroke-linecap="round"/></svg>
-        <div style="position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:4px;background:#FF3B30;border:1.5px solid #fff"></div>
+        <sc-if value="{{ hasUnreadNotifications }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;top:4px;right:5px;min-width:16px;height:16px;border-radius:8px;background:#FF3B30;border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;padding:0 3px">{{ unreadNotificationCount }}</div>
+        </sc-if>
       </div>
     </div>
   </div>
@@ -222,9 +226,25 @@ a:hover{color:#5A45A8}
       <div style="flex:1;font-size:16px;color:#1C1C1E;font-weight:500">Финансы</div>
       <svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="#C7C7CC" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;padding:15px 16px;opacity:0.4">
-      <div style="width:32px;height:32px;border-radius:9px;background:rgba(60,60,67,0.06);flex-shrink:0"></div>
-      <div style="flex:1;font-size:16px;color:#1C1C1E">Настройки центра</div>
+    <div onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer;border-bottom:1px solid rgba(60,60,67,0.08)">
+      <div style="width:32px;height:32px;border-radius:9px;background:rgba(60,60,67,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" stroke="#3C3C43" stroke-width="1.6"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.5 3.5l1.4 1.4M15.1 15.1l1.4 1.4M16.5 3.5l-1.4 1.4M4.9 15.1l-1.4 1.4" stroke="#3C3C43" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <div style="flex:1;font-size:16px;color:#1C1C1E;font-weight:500">Настройки центра</div>
+      <svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="#C7C7CC" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div onClick="{{ openAbout }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer;border-bottom:1px solid rgba(60,60,67,0.08)">
+      <div style="width:32px;height:32px;border-radius:9px;background:rgba(10,132,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0A84FF" stroke-width="1.6"/><path d="M10 9v5M10 6.5v.5" stroke="#0A84FF" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <div style="flex:1;font-size:16px;color:#1C1C1E;font-weight:500">О приложении</div>
+      <svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="#C7C7CC" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div onClick="{{ doLogout }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer">
+      <div style="width:32px;height:32px;border-radius:9px;background:rgba(255,59,48,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 17H4a1 1 0 01-1-1V4a1 1 0 011-1h3M14 14l4-4-4-4M8 10h10" stroke="#FF3B30" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="flex:1;font-size:16px;color:#FF3B30;font-weight:500">Выйти</div>
     </div>
   </div>
   <div style="font-size:13px;color:#8A8A8E;line-height:1.6;padding:0 4px">Коррекционный центр «Алау»<br/>ул. Абая 42, Алматы · пн–сб 09:00–18:00</div>
@@ -235,17 +255,23 @@ a:hover{color:#5A45A8}
 <div style="padding:6px 20px 24px">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
     <div onClick="{{ back }}" style="width:34px;height:34px;border-radius:17px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><svg width="10" height="16" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#3C3C43" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div style="font-size:24px;font-weight:700;color:#1C1C1E">Уведомления</div>
+    <div style="font-size:24px;font-weight:700;color:#1C1C1E;flex:1">Уведомления</div>
+    <div onClick="{{ markAllNotificationsRead }}" style="font-size:14px;color:#6E56CF;font-weight:600;cursor:pointer">Прочитать все</div>
   </div>
   <div style="display:flex;flex-direction:column;gap:10px">
     <sc-for list="{{ notifications }}" as="n" hint-placeholder-count="6">
-      <div style="display:flex;gap:12px;background:#fff;border-radius:16px;padding:13px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div onClick="{{ n.onClick }}" style="display:flex;gap:12px;background:{{ n.bg }};border-radius:16px;padding:13px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);cursor:pointer">
         <div style="width:9px;height:9px;border-radius:5px;background:{{ n.color }};margin-top:5px;flex-shrink:0"></div>
         <div style="flex:1">
           <div style="font-size:14.5px;font-weight:600;color:#1C1C1E">{{ n.title }}</div>
           <div style="font-size:13.5px;color:#6B6B70;margin-top:3px;line-height:1.4">{{ n.body }}</div>
           <div style="font-size:12px;color:#B0B0B5;margin-top:5px">{{ n.time }}</div>
         </div>
+        <sc-if value="{{ n.unread }}" hint-placeholder-val="{{ true }}">
+          <div onClick="{{ n.onMarkRead }}" style="width:24px;height:24px;border-radius:12px;background:rgba(110,86,207,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+            <div style="width:8px;height:8px;border-radius:4px;background:#6E56CF"></div>
+          </div>
+        </sc-if>
       </div>
     </sc-for>
   </div>
@@ -261,6 +287,15 @@ a:hover{color:#5A45A8}
       <input value="{{ searchQuery }}" onChange="{{ onSearchChange }}" placeholder="Ребёнок, сотрудник или группа" style="flex:1;border:none;background:transparent;outline:none;font-size:15px;color:#1C1C1E"/>
     </div>
   </div>
+
+  <sc-if value="{{ showSearchCategories }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:8px;margin-bottom:18px">
+      <sc-for list="{{ searchCategoryChips }}" as="sc" hint-placeholder-count="3">
+        <div onClick="{{ sc.onClick }}" style="padding:7px 14px;border-radius:14px;font-size:13.5px;font-weight:600;cursor:pointer;background:{{ sc.bg }};color:{{ sc.color }};border:1px solid {{ sc.border }}">{{ sc.label }}</div>
+      </sc-for>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ hasSearchResults }}" hint-placeholder-val="{{ false }}">
     <div style="display:flex;flex-direction:column;gap:8px">
       <sc-for list="{{ searchResults }}" as="r" hint-placeholder-count="0">
@@ -271,9 +306,148 @@ a:hover{color:#5A45A8}
       </sc-for>
     </div>
   </sc-if>
-  <sc-if value="{{ showSearchEmpty }}" hint-placeholder-val="{{ true }}">
+
+  <sc-if value="{{ showSearchRecent }}" hint-placeholder-val="{{ true }}">
+    <div style="font-size:13px;color:#8A8A8E;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px">Недавние</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ recentSearchItems }}" as="ri" hint-placeholder-count="4">
+        <div onClick="{{ ri.onClick }}" style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);cursor:pointer">
+          <div style="width:36px;height:36px;border-radius:18px;background:{{ ri.avatarColor }};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0">{{ ri.initials }}</div>
+          <div style="flex:1"><div style="font-size:15px;font-weight:600;color:#1C1C1E">{{ ri.name }}</div><div style="font-size:12.5px;color:#8A8A8E">{{ ri.type }}</div></div>
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 108 8" stroke="#C7C7CC" stroke-width="1.6" stroke-linecap="round"/><path d="M10 5v5l3 3" stroke="#C7C7CC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showSearchEmpty }}" hint-placeholder-val="{{ false }}">
     <div style="text-align:center;padding:40px 20px;color:#B0B0B5;font-size:14px">Ничего не найдено</div>
   </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ showSessionDetail }}" hint-placeholder-val="{{ false }}">
+<div style="padding:6px 20px 30px">
+  <div onClick="{{ back }}" style="width:34px;height:34px;border-radius:17px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px"><svg width="10" height="16" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#3C3C43" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+    <div style="font-size:24px;font-weight:700;color:#1C1C1E">{{ sdTime }}</div>
+    <div style="font-size:12px;font-weight:700;padding:4px 12px;border-radius:10px;background:{{ sdStatusBg }};color:{{ sdStatusColor }}">{{ sdStatusLabel }}</div>
+  </div>
+  <div style="font-size:18px;font-weight:600;color:#1C1C1E;margin-bottom:18px">{{ sdTitle }}</div>
+
+  <div style="background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+    <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:12px">Информация</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between"><span style="font-size:14px;color:#6B6B70">Специалист</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">{{ sdSpecialist }}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="font-size:14px;color:#6B6B70">Кабинет</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">{{ sdRoom }}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="font-size:14px;color:#6B6B70">Тип</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">{{ sdTypeLabel }}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="font-size:14px;color:#6B6B70">Стоимость</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">{{ sdPrice }} ₸</span></div>
+    </div>
+  </div>
+
+  <sc-if value="{{ sdIsGroup }}" hint-placeholder-val="{{ true }}">
+    <div style="background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+      <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:10px">Дети в группе</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ sdGroupChildren }}" as="gc" hint-placeholder-count="6">
+          <div onClick="{{ gc.onClick }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+            <div style="width:32px;height:32px;border-radius:16px;background:{{ gc.avatarColor }};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;flex-shrink:0">{{ gc.initials }}</div>
+            <div style="flex:1;font-size:14px;font-weight:500;color:#1C1C1E">{{ gc.name }}</div>
+            <div style="font-size:12px;font-weight:600;color:{{ gc.attendColor }}">{{ gc.attendLabel }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+    <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:8px">Заметки</div>
+    <textarea value="{{ sdNotes }}" onChange="{{ onSdNotesChange }}" placeholder="Добавить заметку к занятию..." style="width:100%;border:none;outline:none;font-size:14px;color:#1C1C1E;min-height:50px;background:transparent;padding:0">{{ sdNotes }}</textarea>
+  </div>
+
+  <div style="display:flex;gap:10px">
+    <div onClick="{{ sdGoAttendance }}" style="flex:1;background:#6E56CF;border-radius:14px;padding:14px;text-align:center;color:#fff;font-size:15px;font-weight:600;cursor:pointer">Отметить посещение</div>
+    <div onClick="{{ sdToggleCancel }}" style="flex:1;background:{{ sdCancelBtnBg }};border-radius:14px;padding:14px;text-align:center;color:{{ sdCancelBtnColor }};font-size:15px;font-weight:600;cursor:pointer;border:1px solid {{ sdCancelBtnBorder }}">{{ sdCancelBtnText }}</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showSettings }}" hint-placeholder-val="{{ false }}">
+<div style="padding:6px 20px 30px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+    <div onClick="{{ back }}" style="width:34px;height:34px;border-radius:17px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><svg width="10" height="16" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#3C3C43" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div style="font-size:24px;font-weight:700;color:#1C1C1E">Настройки</div>
+  </div>
+
+  <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:56px;height:56px;border-radius:16px;background:#6E56CF;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;flex-shrink:0">А</div>
+      <div>
+        <div style="font-size:18px;font-weight:700;color:#1C1C1E">Алау</div>
+        <div style="font-size:13px;color:#8A8A8E;margin-top:2px">Коррекционный центр</div>
+        <div style="font-size:13px;color:#8A8A8E;margin-top:1px">ул. Абая 42, Алматы</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(60,60,67,0.08);font-size:14px;color:#6B6B70">Часы работы: пн–сб 09:00–18:00</div>
+  </div>
+
+  <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:16px">
+    <div onClick="{{ toggleSettingsRooms }}" style="display:flex;align-items:center;justify-content:space-between;padding:15px 16px;cursor:pointer;border-bottom:1px solid rgba(60,60,67,0.08)">
+      <div style="font-size:16px;color:#1C1C1E;font-weight:500">Кабинеты</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-size:14px;color:#8A8A8E">3 кабинета</div>
+        <svg width="12" height="8" viewBox="0 0 12 8" style="transform:{{ settingsRoomsChevron }}"><path d="M1 1l5 5 5-5" stroke="#8A8A8E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <sc-if value="{{ settingsRoomsExpanded }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 16px">
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(60,60,67,0.06)"><span style="font-size:14px;color:#1C1C1E">Кабинет 1</span><span style="font-size:13px;color:#8A8A8E">Групповой · 20 м²</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(60,60,67,0.06)"><span style="font-size:14px;color:#1C1C1E">Кабинет 2</span><span style="font-size:13px;color:#8A8A8E">Индивидуальный · 12 м²</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0"><span style="font-size:14px;color:#1C1C1E">Кабинет 3</span><span style="font-size:13px;color:#8A8A8E">Сенсорный · 18 м²</span></div>
+      </div>
+    </sc-if>
+
+    <div onClick="{{ toggleSettingsPrices }}" style="display:flex;align-items:center;justify-content:space-between;padding:15px 16px;cursor:pointer;border-bottom:1px solid rgba(60,60,67,0.08)">
+      <div style="font-size:16px;color:#1C1C1E;font-weight:500">Стоимость занятий</div>
+      <svg width="12" height="8" viewBox="0 0 12 8" style="transform:{{ settingsPricesChevron }}"><path d="M1 1l5 5 5-5" stroke="#8A8A8E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <sc-if value="{{ settingsPricesExpanded }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 16px">
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(60,60,67,0.06)"><span style="font-size:14px;color:#1C1C1E">Групповое занятие</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">5 000 ₸</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(60,60,67,0.06)"><span style="font-size:14px;color:#1C1C1E">Индивидуальное</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">8 000 ₸</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(60,60,67,0.06)"><span style="font-size:14px;color:#1C1C1E">Абонемент (8 групповых)</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">36 000 ₸</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0"><span style="font-size:14px;color:#1C1C1E">Абонемент (8 индивидуальных)</span><span style="font-size:14px;font-weight:600;color:#1C1C1E">56 000 ₸</span></div>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 16px;border-bottom:1px solid rgba(60,60,67,0.08)">
+      <div style="font-size:16px;color:#1C1C1E;font-weight:500">Уведомления</div>
+      <div onClick="{{ toggleSettingsNotifications }}" style="width:51px;height:31px;border-radius:16px;background:{{ settingsNotifBg }};cursor:pointer;position:relative;transition:background 0.2s">
+        <div style="width:27px;height:27px;border-radius:14px;background:#fff;position:absolute;top:2px;left:{{ settingsNotifPos }};box-shadow:0 1px 3px rgba(0,0,0,0.2);transition:left 0.2s"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ exportData }}" style="display:flex;align-items:center;justify-content:space-between;padding:15px 16px;cursor:pointer">
+      <div style="font-size:16px;color:#1C1C1E;font-weight:500">Экспорт данных</div>
+      <svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="#C7C7CC" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:13px;color:#B0B0B5;margin-top:24px">Алау CRM · v1.2.0</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showToast }}" hint-placeholder-val="{{ false }}">
+<div style="padding:6px 20px 30px">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh">
+    <div style="width:80px;height:80px;border-radius:40px;background:rgba(52,199,89,0.14);display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M8 18l8 8 12-14" stroke="#34C759" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div style="font-size:22px;font-weight:700;color:#1C1C1E;margin-bottom:8px;text-align:center">{{ toastTitle }}</div>
+    <div style="font-size:15px;color:#8A8A8E;text-align:center;margin-bottom:30px">{{ toastSubtitle }}</div>
+    <div onClick="{{ toastDone }}" style="background:#6E56CF;border-radius:14px;padding:14px 48px;text-align:center;color:#fff;font-size:16px;font-weight:600;cursor:pointer">Готово</div>
+  </div>
 </div>
 </sc-if>
 
@@ -297,6 +471,26 @@ a:hover{color:#5A45A8}
         <div><div style="font-size:22px;font-weight:700;color:#1C1C1E">{{ selGroupAttendance }}%</div><div style="font-size:12.5px;color:#8A8A8E;margin-top:2px">посещаемость</div></div>
       </div>
     </div>
+
+    <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+      <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:10px">Следующее занятие</div>
+      <div style="font-size:16px;font-weight:600;color:#1C1C1E">{{ selGroupNextSessionDate }}</div>
+      <div style="font-size:14px;color:#8A8A8E;margin-top:3px">{{ selGroupNextSessionTime }} · {{ selGroupTrainer }}</div>
+    </div>
+
+    <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+      <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:10px">Посещаемость за месяц</div>
+      <div style="display:flex;align-items:flex-end;gap:6px;height:60px">
+        <sc-for list="{{ selGroupAttendBars }}" as="ab" hint-placeholder-count="4">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end">
+            <div style="font-size:10px;color:#6B6B70;font-weight:600">{{ ab.pct }}%</div>
+            <div style="width:100%;background:{{ ab.color }};border-radius:4px;height:{{ ab.height }}"></div>
+            <div style="font-size:10px;color:#B0B0B5">{{ ab.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
     <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
       <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:8px">Заполняемость</div>
       <div style="height:8px;background:#EDEDF0;border-radius:4px;overflow:hidden"><div style="height:100%;background:#6E56CF;width:{{ selGroupFillPct }}"></div></div>
@@ -317,18 +511,47 @@ a:hover{color:#5A45A8}
   <sc-if value="{{ isGroupTabSessions }}" hint-placeholder-val="{{ false }}">
     <div style="display:flex;flex-direction:column;gap:10px">
       <sc-for list="{{ selGroupSessions }}" as="s" hint-placeholder-count="4">
-        <div style="background:#fff;border-radius:14px;padding:13px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
-          <div style="font-size:14.5px;font-weight:600;color:#1C1C1E">{{ s.date }}</div>
-          <div style="font-size:13px;color:#8A8A8E;margin-top:2px">{{ s.attended }}/{{ s.total }} присутствовали</div>
+        <div onClick="{{ s.onClick }}" style="background:#fff;border-radius:14px;padding:13px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);cursor:pointer">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:14.5px;font-weight:600;color:#1C1C1E">{{ s.date }}</div>
+            <div style="font-size:12px;font-weight:600;color:{{ s.attendColor }}">{{ s.attended }}/{{ s.total }}</div>
+          </div>
+          <div style="font-size:13px;color:#8A8A8E">{{ s.time }} · {{ s.specialist }} · Каб. {{ s.room }}</div>
+          <div style="height:4px;background:#EDEDF0;border-radius:2px;overflow:hidden;margin-top:8px"><div style="height:100%;background:{{ s.barColor }};width:{{ s.barWidth }}"></div></div>
         </div>
       </sc-for>
     </div>
   </sc-if>
 
   <sc-if value="{{ isGroupTabFinance }}" hint-placeholder-val="{{ false }}">
-    <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+    <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
       <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:6px">Доход группы в этом месяце</div>
       <div style="font-size:26px;font-weight:700;color:#1C1C1E">{{ selGroupRevenue }} ₸</div>
+    </div>
+
+    <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+      <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:12px">По месяцам</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ selGroupMonthlyRevenue }}" as="mr" hint-placeholder-count="3">
+          <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:#6B6B70">{{ mr.month }}</span><span style="font-weight:600;color:#1C1C1E">{{ mr.amount }} ₸</span></div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:12px">Статус оплат</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ selGroupChildPayments }}" as="cp" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:14px;color:#1C1C1E">{{ cp.name }}</div>
+            <div style="font-size:13px;font-weight:600;color:{{ cp.statusColor }}">{{ cp.statusLabel }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid rgba(60,60,67,0.08)">
+        <span style="font-size:14px;font-weight:600;color:#1C1C1E">Задолженность</span>
+        <span style="font-size:14px;font-weight:700;color:#FF3B30">{{ selGroupDebt }} ₸</span>
+      </div>
     </div>
   </sc-if>
 </div>
@@ -398,6 +621,11 @@ a:hover{color:#5A45A8}
     <div style="font-size:13px;color:#8A8A8E">{{ selParentMessenger }}</div>
   </div>
 
+  <div style="display:flex;gap:10px;margin-bottom:14px">
+    <div onClick="{{ callParent }}" style="flex:1;background:#34C759;border-radius:14px;padding:13px;text-align:center;color:#fff;font-size:15px;font-weight:600;cursor:pointer">Позвонить</div>
+    <div onClick="{{ messageParent }}" style="flex:1;background:#0A84FF;border-radius:14px;padding:13px;text-align:center;color:#fff;font-size:15px;font-weight:600;cursor:pointer">Написать</div>
+  </div>
+
   <sc-if value="{{ selParentHasDebt }}" hint-placeholder-val="{{ false }}">
     <div style="background:rgba(255,59,48,0.08);border:1px solid rgba(255,59,48,0.2);border-radius:18px;padding:16px 18px;margin-bottom:14px">
       <div style="font-size:13px;color:#B01B12;font-weight:600;margin-bottom:4px">Задолженность</div>
@@ -405,7 +633,10 @@ a:hover{color:#5A45A8}
     </div>
   </sc-if>
 
-  <div style="font-size:17px;font-weight:700;color:#1C1C1E;margin-bottom:10px">История оплат</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <div style="font-size:17px;font-weight:700;color:#1C1C1E">История оплат</div>
+    <div style="font-size:14px;color:#8A8A8E;font-weight:600">Итого: {{ selParentTotalPaid }} ₸</div>
+  </div>
   <div style="display:flex;flex-direction:column;gap:8px">
     <sc-for list="{{ selParentPayments }}" as="p" hint-placeholder-count="3">
       <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
@@ -425,12 +656,37 @@ a:hover{color:#5A45A8}
     <div><div style="font-size:21px;font-weight:700;color:#1C1C1E">{{ selEmpName }}</div><div style="font-size:14px;color:#8A8A8E;margin-top:2px">{{ selEmpRole }}</div></div>
   </div>
 
+  <div style="background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+    <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:8px">Контакты</div>
+    <div style="font-size:15px;color:#1C1C1E;margin-bottom:2px">{{ selEmpPhone }}</div>
+    <div style="font-size:13px;color:#8A8A8E">{{ selEmpEmail }}</div>
+  </div>
+
   <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
     <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:10px">Нагрузка сегодня</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
       <div><div style="font-size:20px;font-weight:700;color:#1C1C1E">{{ selEmpSessions }}</div><div style="font-size:12px;color:#8A8A8E">занятий</div></div>
       <div><div style="font-size:20px;font-weight:700;color:#1C1C1E">{{ selEmpHours }}</div><div style="font-size:12px;color:#8A8A8E">часов</div></div>
       <div><div style="font-size:20px;font-weight:700;color:{{ selEmpLoadColor }}">{{ selEmpLoad }}%</div><div style="font-size:12px;color:#8A8A8E">загрузка</div></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:13px;color:#8A8A8E;font-weight:600">Расписание сегодня</div>
+      <div style="font-size:13px;color:#8A8A8E">{{ selEmpWeekSummary }}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ selEmpTodaySessions }}" as="es" hint-placeholder-count="4">
+        <div onClick="{{ es.onClick }}" style="display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer;border-bottom:1px solid rgba(60,60,67,0.06)">
+          <div style="width:48px;flex-shrink:0;font-size:13px;color:#8A8A8E;font-weight:600">{{ es.time }}</div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600;color:#1C1C1E">{{ es.title }}</div>
+            <div style="font-size:12.5px;color:#8A8A8E">{{ es.subtitle }}</div>
+          </div>
+          <div style="font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:{{ es.statusBg }};color:{{ es.statusColor }}">{{ es.statusLabel }}</div>
+        </div>
+      </sc-for>
     </div>
   </div>
 
@@ -454,17 +710,23 @@ a:hover{color:#5A45A8}
 <sc-if value="{{ showFinance }}" hint-placeholder-val="{{ false }}">
 <div style="padding:6px 20px 30px">
   <div onClick="{{ back }}" style="width:34px;height:34px;border-radius:17px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px"><svg width="10" height="16" viewBox="0 0 12 20"><path d="M10 2L2 10l8 8" stroke="#3C3C43" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-  <div style="font-size:26px;font-weight:700;color:#1C1C1E;margin-bottom:18px">Финансы</div>
+  <div style="font-size:26px;font-weight:700;color:#1C1C1E;margin-bottom:14px">Финансы</div>
+
+  <div style="display:flex;background:#E9E9EE;border-radius:10px;padding:2px;margin-bottom:16px">
+    <div onClick="{{ setFinancePeriodToday }}" style="flex:1;text-align:center;padding:7px 0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:{{ fpTodayBg }};color:{{ fpTodayColor }}">Сегодня</div>
+    <div onClick="{{ setFinancePeriodWeek }}" style="flex:1;text-align:center;padding:7px 0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:{{ fpWeekBg }};color:{{ fpWeekColor }}">Неделя</div>
+    <div onClick="{{ setFinancePeriodMonth }}" style="flex:1;text-align:center;padding:7px 0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:{{ fpMonthBg }};color:{{ fpMonthColor }}">Месяц</div>
+  </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-    <div style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Выручка сегодня</div><div style="font-size:19px;font-weight:700;color:#1C1C1E">245 000 ₸</div></div>
-    <div style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">За месяц</div><div style="font-size:19px;font-weight:700;color:#1C1C1E">5 820 000 ₸</div></div>
-    <div style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Ожидается</div><div style="font-size:19px;font-weight:700;color:#0A84FF">420 000 ₸</div></div>
-    <div style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Задолженность</div><div style="font-size:19px;font-weight:700;color:#FF3B30">180 000 ₸</div></div>
+    <div style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Выручка</div><div style="font-size:19px;font-weight:700;color:#1C1C1E">{{ finRevenue }}</div></div>
+    <div style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Расходы</div><div style="font-size:19px;font-weight:700;color:#FF3B30">{{ finExpenses }}</div></div>
+    <div style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Ожидается</div><div style="font-size:19px;font-weight:700;color:#0A84FF">{{ finExpected }}</div></div>
+    <div onClick="{{ goToDebtors }}" style="background:#fff;border-radius:16px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.05);cursor:pointer"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Задолженность</div><div style="font-size:19px;font-weight:700;color:#FF3B30">{{ finDebt }}</div></div>
   </div>
 
   <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
-    <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:14px">Выручка по дням</div>
+    <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:14px">{{ finChartLabel }}</div>
     <div style="display:flex;align-items:flex-end;gap:8px;height:80px">
       <sc-for list="{{ revenueBars }}" as="b" hint-placeholder-count="7">
         <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end">
@@ -475,11 +737,24 @@ a:hover{color:#5A45A8}
     </div>
   </div>
 
-  <div style="background:#fff;border-radius:18px;padding:6px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
-    <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(60,60,67,0.08)"><span style="font-size:14.5px;color:#6B6B70">Доход групп</span><span style="font-size:14.5px;font-weight:600;color:#1C1C1E">4 120 000 ₸</span></div>
-    <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(60,60,67,0.08)"><span style="font-size:14.5px;color:#6B6B70">Индивидуальные</span><span style="font-size:14.5px;font-weight:600;color:#1C1C1E">1 700 000 ₸</span></div>
-    <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(60,60,67,0.08)"><span style="font-size:14.5px;color:#6B6B70">Зарплаты</span><span style="font-size:14.5px;font-weight:600;color:#FF3B30">−2 380 000 ₸</span></div>
-    <div style="display:flex;justify-content:space-between;padding:13px 0"><span style="font-size:15px;color:#1C1C1E;font-weight:700">Прибыль</span><span style="font-size:15px;font-weight:700;color:#34C759">3 440 000 ₸</span></div>
+  <div style="background:#fff;border-radius:18px;padding:6px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(60,60,67,0.08)"><span style="font-size:14.5px;color:#6B6B70">Доход групп</span><span style="font-size:14.5px;font-weight:600;color:#1C1C1E">{{ finGroupIncome }}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(60,60,67,0.08)"><span style="font-size:14.5px;color:#6B6B70">Индивидуальные</span><span style="font-size:14.5px;font-weight:600;color:#1C1C1E">{{ finIndivIncome }}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(60,60,67,0.08)"><span style="font-size:14.5px;color:#6B6B70">Зарплаты</span><span style="font-size:14.5px;font-weight:600;color:#FF3B30">{{ finSalaries }}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:13px 0"><span style="font-size:15px;color:#1C1C1E;font-weight:700">Прибыль</span><span style="font-size:15px;font-weight:700;color:#34C759">{{ finProfit }}</span></div>
+  </div>
+
+  <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+    <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:12px">Расходы по категориям</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ finExpenseCategories }}" as="ec" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:10px;height:10px;border-radius:5px;background:{{ ec.color }};flex-shrink:0"></div>
+          <div style="flex:1;font-size:14px;color:#1C1C1E">{{ ec.name }}</div>
+          <div style="font-size:14px;font-weight:600;color:#1C1C1E">{{ ec.amount }}</div>
+        </div>
+      </sc-for>
+    </div>
   </div>
 </div>
 </sc-if>
@@ -487,24 +762,45 @@ a:hover{color:#5A45A8}
 <sc-if value="{{ showAddChild }}" hint-placeholder-val="{{ false }}">
 <div style="padding:6px 20px 30px">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-    <div onClick="{{ back }}" style="font-size:16px;color:#6E56CF">Отмена</div>
+    <div onClick="{{ back }}" style="font-size:16px;color:#6E56CF;cursor:pointer">Отмена</div>
     <div style="font-size:16px;font-weight:700;color:#1C1C1E">Новый ребёнок</div>
     <div style="width:52px"></div>
   </div>
   <div style="display:flex;flex-direction:column;gap:12px">
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Имя и фамилия</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">Введите имя</div></div>
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Дата рождения</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">Выбрать дату</div></div>
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Родитель</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">Добавить контакт</div></div>
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Особенности</div><div style="font-size:14px;color:#B0B0B5">Поведение, медицинские ограничения, аллергии…</div></div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Имя и фамилия</div>
+      <input value="{{ newChildName }}" onChange="{{ onNewChildNameChange }}" placeholder="Введите имя" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0"/>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Дата рождения</div>
+      <input type="date" value="{{ newChildBirth }}" onChange="{{ onNewChildBirthChange }}" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0"/>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Телефон родителя</div>
+      <input value="{{ newChildParent }}" onChange="{{ onNewChildParentChange }}" placeholder="+7 7XX XXX XXXX" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0"/>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Группа</div>
+      <select value="{{ newChildGroup }}" onChange="{{ onNewChildGroupChange }}" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0;-webkit-appearance:none">
+        <option value="">Индивидуальные занятия</option>
+        <sc-for list="{{ groupPickerOptions }}" as="gp" hint-placeholder-count="4">
+          <option value="{{ gp.id }}">{{ gp.name }}</option>
+        </sc-for>
+      </select>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Особенности</div>
+      <textarea value="{{ newChildNotes }}" onChange="{{ onNewChildNotesChange }}" placeholder="Поведение, медицинские ограничения, аллергии..." style="width:100%;border:none;outline:none;font-size:14px;color:#1C1C1E;background:transparent;padding:0;min-height:60px"></textarea>
+    </div>
   </div>
-  <div onClick="{{ back }}" style="margin-top:22px;background:#6E56CF;border-radius:14px;padding:15px;text-align:center;color:#fff;font-size:16px;font-weight:600;cursor:pointer">Добавить ребёнка</div>
+  <div onClick="{{ submitAddChild }}" style="margin-top:22px;background:#6E56CF;border-radius:14px;padding:15px;text-align:center;color:#fff;font-size:16px;font-weight:600;cursor:pointer">Добавить ребёнка</div>
 </div>
 </sc-if>
 
 <sc-if value="{{ showCreateSession }}" hint-placeholder-val="{{ false }}">
 <div style="padding:6px 20px 30px">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-    <div onClick="{{ back }}" style="font-size:16px;color:#6E56CF">Отмена</div>
+    <div onClick="{{ back }}" style="font-size:16px;color:#6E56CF;cursor:pointer">Отмена</div>
     <div style="font-size:16px;font-weight:700;color:#1C1C1E">Новое занятие</div>
     <div style="width:52px"></div>
   </div>
@@ -513,13 +809,44 @@ a:hover{color:#5A45A8}
     <div onClick="{{ setSessionTypeIndividual }}" style="flex:1;text-align:center;padding:8px 0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:{{ sessIndivBg }};color:{{ sessIndivColor }}">Индивидуальное</div>
   </div>
   <div style="display:flex;flex-direction:column;gap:12px">
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Дата и время</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">4 сентября, 10:00</div></div>
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">{{ sessTargetLabel }}</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">{{ sessTargetValue }}</div></div>
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Специалист</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">Свободны: Анна, Мария, Данияр</div></div>
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Кабинет</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">Кабинет 2</div></div>
-    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)"><div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Стоимость</div><div style="font-size:15px;color:#1C1C1E;font-weight:500">{{ sessPrice }} ₸</div></div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Дата</div>
+      <input type="date" value="{{ newSessionDate }}" onChange="{{ onNewSessionDateChange }}" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0"/>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Время</div>
+      <input type="time" value="{{ newSessionTime }}" onChange="{{ onNewSessionTimeChange }}" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0"/>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">{{ sessTargetLabel }}</div>
+      <select value="{{ newSessionTarget }}" onChange="{{ onNewSessionTargetChange }}" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0;-webkit-appearance:none">
+        <sc-for list="{{ sessTargetOptions }}" as="sto" hint-placeholder-count="4">
+          <option value="{{ sto.id }}">{{ sto.name }}</option>
+        </sc-for>
+      </select>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Специалист</div>
+      <select value="{{ newSessionSpecialist }}" onChange="{{ onNewSessionSpecialistChange }}" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0;-webkit-appearance:none">
+        <sc-for list="{{ sessSpecialistOptions }}" as="sso" hint-placeholder-count="5">
+          <option value="{{ sso.id }}">{{ sso.name }}</option>
+        </sc-for>
+      </select>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Кабинет</div>
+      <select value="{{ newSessionRoom }}" onChange="{{ onNewSessionRoomChange }}" style="width:100%;border:none;outline:none;font-size:15px;color:#1C1C1E;font-weight:500;background:transparent;padding:0;-webkit-appearance:none">
+        <option value="1">Кабинет 1 — Групповой</option>
+        <option value="2">Кабинет 2 — Индивидуальный</option>
+        <option value="3">Кабинет 3 — Сенсорный</option>
+      </select>
+    </div>
+    <div style="background:#fff;border-radius:14px;padding:13px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+      <div style="font-size:12px;color:#8A8A8E;margin-bottom:4px">Стоимость</div>
+      <div style="font-size:15px;color:#1C1C1E;font-weight:500">{{ sessPrice }} ₸</div>
+    </div>
   </div>
-  <div onClick="{{ back }}" style="margin-top:22px;background:#6E56CF;border-radius:14px;padding:15px;text-align:center;color:#fff;font-size:16px;font-weight:600;cursor:pointer">Создать занятие</div>
+  <div onClick="{{ submitCreateSession }}" style="margin-top:22px;background:#6E56CF;border-radius:14px;padding:15px;text-align:center;color:#fff;font-size:16px;font-weight:600;cursor:pointer">Создать занятие</div>
 </div>
 </sc-if>
 
@@ -551,9 +878,13 @@ a:hover{color:#5A45A8}
     </sc-for>
   </div>
   <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:6px">Что наблюдали?</div>
-  <div style="background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px;min-height:70px;font-size:14px;color:#B0B0B5">Опишите поведение и реакцию ребёнка…</div>
+  <div style="background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:14px">
+    <textarea value="{{ commentText }}" onChange="{{ onCommentTextChange }}" placeholder="Опишите поведение и реакцию ребёнка..." style="width:100%;border:none;outline:none;font-size:14px;color:#1C1C1E;min-height:70px;background:transparent;padding:0"></textarea>
+  </div>
   <div style="font-size:13px;color:#8A8A8E;font-weight:600;margin-bottom:6px">Рекомендации</div>
-  <div style="background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);min-height:60px;font-size:14px;color:#B0B0B5">Рекомендации для следующего занятия…</div>
+  <div style="background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+    <textarea value="{{ recommendationText }}" onChange="{{ onRecommendationTextChange }}" placeholder="Рекомендации для следующего занятия..." style="width:100%;border:none;outline:none;font-size:14px;color:#1C1C1E;min-height:60px;background:transparent;padding:0"></textarea>
+  </div>
   <div onClick="{{ finishComment }}" style="margin-top:22px;background:#6E56CF;border-radius:14px;padding:15px;text-align:center;color:#fff;font-size:16px;font-weight:600;cursor:pointer">Завершить занятие</div>
 </div>
 </sc-if>
@@ -619,114 +950,216 @@ class Component extends DCLogic {
     scheduleMode: 'day', scheduleFilter: 'all', weekDay: 3,
     childrenSubTab: 'children', childFilter: 'active',
     groupTab: 'overview', salaryExpanded: false,
-    searchQuery: '', showQuickActions: false,
-    attendanceMarks: {}, rating: 4
+    searchQuery: '', searchCategory: 'all', showQuickActions: false,
+    attendanceMarks: {}, rating: 4,
+    newChildName: '', newChildBirth: '', newChildParent: '', newChildNotes: '', newChildGroup: '',
+    newSessionDate: '2026-09-04', newSessionTime: '10:00', newSessionTarget: '', newSessionSpecialist: 'e1', newSessionRoom: '2',
+    sessionType: 'group', financePeriod: 'today',
+    commentText: '', recommendationText: '',
+    notificationRead: {},
+    settingsRoomsExpanded: false, settingsPricesExpanded: false, settingsNotificationsOn: true,
+    sdNotes: '',
+    toastType: null,
+    navStack: []
   };
 
   children = [
     {id:'c1',name:'Миша Иванов',age:8,status:'active',avatarColor:'#6E56CF',groupId:'g1',attendance:92,nextSession:'Сегодня · 15:00',specialist:'Анна Петрова',parentId:'p1',
       info:[{label:'Поведение',value:'Может тревожиться в шумной обстановке'},{label:'Рекомендации',value:'Хорошо реагирует на визуальные подсказки'}],
       history:[{date:'02 сентября',type:'Индивидуальное',specialist:'Анна Петрова',duration:60,comment:'Хорошо реагировал на упражнения на моторику.'},
-               {date:'30 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Активно участвовал в общих играх.'}]},
+               {date:'30 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Активно участвовал в общих играх.'},
+               {date:'27 августа',type:'Индивидуальное',specialist:'Анна Петрова',duration:60,comment:'Работали над мелкой моторикой, есть прогресс.'},
+               {date:'25 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Начал инициировать контакт с другими детьми.'}]},
     {id:'c2',name:'Алиса Смагулова',age:7,status:'active',avatarColor:'#FF9F0A',groupId:null,attendance:88,nextSession:'Сегодня · 14:00',specialist:'Сергей Ким',parentId:'p2',
       info:[{label:'Аллергии',value:'Цитрусовые'},{label:'Медицинские ограничения',value:'Ограничение по интенсивным нагрузкам'}],
-      history:[{date:'01 сентября',type:'Индивидуальное',specialist:'Сергей Ким',duration:45,comment:'Устала быстрее обычного, сделали перерыв.'}]},
+      history:[{date:'01 сентября',type:'Индивидуальное',specialist:'Сергей Ким',duration:45,comment:'Устала быстрее обычного, сделали перерыв.'},
+               {date:'29 августа',type:'Индивидуальное',specialist:'Сергей Ким',duration:45,comment:'Хорошо выполняла упражнения на баланс.'},
+               {date:'26 августа',type:'Индивидуальное',specialist:'Сергей Ким',duration:45,comment:'Работали над координацией движений.'}]},
     {id:'c3',name:'Даша Ким',age:6,status:'active',avatarColor:'#0A84FF',groupId:'g1',attendance:95,nextSession:'Ср · 09:00',specialist:'Анна Петрова',parentId:'p3',info:[],
-      history:[{date:'30 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Хорошо взаимодействовала с группой.'}]},
+      history:[{date:'30 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Хорошо взаимодействовала с группой.'},
+               {date:'27 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Активно участвовала в сенсорных играх.'},
+               {date:'25 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Показала прогресс в речевых упражнениях.'}]},
     {id:'c4',name:'Петя Оспанов',age:9,status:'active',avatarColor:'#34C759',groupId:'g2',attendance:80,nextSession:'Пт · 12:00',specialist:'Сергей Ким',parentId:'p4',
       info:[{label:'Поведение',value:'Нуждается в чётком расписании и предсказуемости'}],
-      history:[{date:'28 августа',type:'Групповое · Радуга',specialist:'Сергей Ким',duration:45,comment:'Занятие перенесено.'}]},
+      history:[{date:'28 августа',type:'Групповое · Радуга',specialist:'Сергей Ким',duration:45,comment:'Занятие перенесено.'},
+               {date:'26 августа',type:'Групповое · Радуга',specialist:'Сергей Ким',duration:45,comment:'Хорошо работал в паре с другим ребёнком.'},
+               {date:'23 августа',type:'Групповое · Радуга',specialist:'Сергей Ким',duration:45,comment:'Требовались дополнительные перерывы.'}]},
     {id:'c5',name:'Тимур Абенов',age:5,status:'active',avatarColor:'#AF52DE',groupId:'g4',attendance:90,nextSession:'Чт · 11:00',specialist:'Данияр Сапаров',parentId:'p5',info:[],
-      history:[{date:'29 августа',type:'Групповое · Ромашка',specialist:'Данияр Сапаров',duration:45,comment:'Хорошая динамика по сенсорным упражнениям.'}]},
+      history:[{date:'29 августа',type:'Групповое · Ромашка',specialist:'Данияр Сапаров',duration:45,comment:'Хорошая динамика по сенсорным упражнениям.'},
+               {date:'27 августа',type:'Групповое · Ромашка',specialist:'Данияр Сапаров',duration:45,comment:'Начал лучше переносить тактильные стимулы.'},
+               {date:'22 августа',type:'Групповое · Ромашка',specialist:'Данияр Сапаров',duration:45,comment:'Активно участвовал в групповой игре.'}]},
     {id:'c6',name:'Софья Ли',age:8,status:'active',avatarColor:'#FF3B30',groupId:'g3',attendance:97,nextSession:'Вт · 16:00',specialist:'Мария Ахметова',parentId:'p6',info:[],
-      history:[{date:'27 августа',type:'Групповое · Звёздочки',specialist:'Мария Ахметова',duration:45,comment:'Отличная работа с речевыми упражнениями.'}]},
+      history:[{date:'27 августа',type:'Групповое · Звёздочки',specialist:'Мария Ахметова',duration:45,comment:'Отличная работа с речевыми упражнениями.'},
+               {date:'25 августа',type:'Групповое · Звёздочки',specialist:'Мария Ахметова',duration:45,comment:'Хорошо читала и пересказывала.'},
+               {date:'20 августа',type:'Групповое · Звёздочки',specialist:'Мария Ахметова',duration:45,comment:'Прогресс в артикуляции шипящих звуков.'}]},
     {id:'c7',name:'Ерлан Байтасов',age:7,status:'active',avatarColor:'#5E5CE6',groupId:'g1',attendance:85,nextSession:'Ср · 09:00',specialist:'Анна Петрова',parentId:'p7',info:[],
-      history:[{date:'28 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Постепенно привыкает к новым детям в группе.'}]},
+      history:[{date:'28 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Постепенно привыкает к новым детям в группе.'},
+               {date:'25 августа',type:'Групповое · Солнышко',specialist:'Анна Петрова',duration:45,comment:'Первый день, был замкнут.'},
+               {date:'23 августа',type:'Индивидуальное',specialist:'Анна Петрова',duration:60,comment:'Диагностическое занятие, определены зоны работы.'}]},
     {id:'c8',name:'Настя Ковалева',age:6,status:'archive',avatarColor:'#8A8A8E',groupId:'g3',attendance:70,nextSession:'—',specialist:'Мария Ахметова',parentId:'p8',info:[],history:[]},
-    {id:'c9',name:'Амир Жаксыбеков',age:9,status:'active',avatarColor:'#0EA5A4',groupId:'g4',attendance:91,nextSession:'Чт · 11:00',specialist:'Данияр Сапаров',parentId:'p9',info:[],history:[]},
-    {id:'c10',name:'Полина Ким',age:5,status:'active',avatarColor:'#FF9F0A',groupId:null,attendance:93,nextSession:'Пн · 10:30',specialist:'Гульнара Оспанова',parentId:'p10',info:[],history:[]}
+    {id:'c9',name:'Амир Жаксыбеков',age:9,status:'active',avatarColor:'#0EA5A4',groupId:'g4',attendance:91,nextSession:'Чт · 11:00',specialist:'Данияр Сапаров',parentId:'p9',info:[],
+      history:[{date:'29 августа',type:'Групповое · Ромашка',specialist:'Данияр Сапаров',duration:45,comment:'Хорошо работал с мячом и координационными упражнениями.'},
+               {date:'27 августа',type:'Групповое · Ромашка',specialist:'Данияр Сапаров',duration:45,comment:'Активно участвовал во всех заданиях.'},
+               {date:'22 августа',type:'Групповое · Ромашка',specialist:'Данияр Сапаров',duration:45,comment:'Показал прогресс в сенсорной интеграции.'}]},
+    {id:'c10',name:'Полина Ким',age:5,status:'active',avatarColor:'#FF9F0A',groupId:null,attendance:93,nextSession:'Пн · 10:30',specialist:'Гульнара Оспанова',parentId:'p10',info:[],
+      history:[{date:'01 сентября',type:'Индивидуальное',specialist:'Гульнара Оспанова',duration:45,comment:'Первое занятие. Хорошо пошла на контакт.'},
+               {date:'28 августа',type:'Индивидуальное',specialist:'Гульнара Оспанова',duration:45,comment:'Диагностика, определены основные задачи.'}]}
   ];
 
   parents = {
-    p1:{name:'Иванова Анна',phone:'+7 701 234 5678',messenger:'WhatsApp',kids:['Миша Иванов'],debt:45000,payments:[{date:'01 авг',desc:'Абонемент, август',amount:'96 000'}]},
-    p2:{name:'Смагулова Гульмира',phone:'+7 707 112 4433',messenger:'Telegram',kids:['Алиса Смагулова'],debt:0,payments:[{date:'02 авг',desc:'Индивидуальные занятия',amount:'120 000'}]},
-    p3:{name:'Ким Виктория',phone:'+7 701 998 2211',messenger:'WhatsApp',kids:['Даша Ким'],debt:0,payments:[{date:'01 авг',desc:'Абонемент, август',amount:'88 000'}]},
-    p4:{name:'Оспанов Марат',phone:'+7 705 443 9091',messenger:'WhatsApp',kids:['Петя Оспанов'],debt:0,payments:[{date:'03 авг',desc:'Абонемент, август',amount:'88 000'}]},
-    p5:{name:'Абенова Динара',phone:'+7 700 556 7712',messenger:'Instagram',kids:['Тимур Абенов'],debt:0,payments:[{date:'01 авг',desc:'Абонемент, август',amount:'80 000'}]},
-    p6:{name:'Ли Екатерина',phone:'+7 701 334 8820',messenger:'WhatsApp',kids:['Софья Ли'],debt:0,payments:[{date:'02 авг',desc:'Абонемент, август',amount:'80 000'}]},
-    p7:{name:'Байтасов Нурлан',phone:'+7 705 220 1147',messenger:'Telegram',kids:['Ерлан Байтасов'],debt:0,payments:[{date:'01 авг',desc:'Абонемент, август',amount:'88 000'}]},
-    p8:{name:'Ковалева Ольга',phone:'+7 701 990 3345',messenger:'WhatsApp',kids:['Настя Ковалева'],debt:0,payments:[]},
-    p9:{name:'Жаксыбеков Бекзат',phone:'+7 707 812 6634',messenger:'WhatsApp',kids:['Амир Жаксыбеков'],debt:0,payments:[{date:'02 авг',desc:'Абонемент, август',amount:'80 000'}]},
-    p10:{name:'Ким Алина',phone:'+7 701 456 9982',messenger:'Telegram',kids:['Полина Ким'],debt:0,payments:[{date:'01 авг',desc:'Индивидуальные занятия',amount:'110 000'}]}
+    p1:{name:'Иванова Анна',phone:'+7 701 234 5678',messenger:'WhatsApp',kids:['Миша Иванов'],debt:45000,payments:[
+      {date:'01 сен',desc:'Абонемент, сентябрь',amount:'96 000'},
+      {date:'01 авг',desc:'Абонемент, август',amount:'96 000'},
+      {date:'01 июл',desc:'Абонемент, июль',amount:'96 000'},
+      {date:'15 июн',desc:'Доплата за индивидуальное',amount:'15 000'},
+      {date:'01 июн',desc:'Абонемент, июнь',amount:'88 000'}]},
+    p2:{name:'Смагулова Гульмира',phone:'+7 707 112 4433',messenger:'Telegram',kids:['Алиса Смагулова'],debt:0,payments:[
+      {date:'02 сен',desc:'Индивидуальные занятия',amount:'120 000'},
+      {date:'02 авг',desc:'Индивидуальные занятия',amount:'120 000'},
+      {date:'01 июл',desc:'Индивидуальные занятия',amount:'120 000'},
+      {date:'01 июн',desc:'Индивидуальные занятия',amount:'110 000'}]},
+    p3:{name:'Ким Виктория',phone:'+7 701 998 2211',messenger:'WhatsApp',kids:['Даша Ким'],debt:0,payments:[
+      {date:'01 сен',desc:'Абонемент, сентябрь',amount:'88 000'},
+      {date:'01 авг',desc:'Абонемент, август',amount:'88 000'},
+      {date:'01 июл',desc:'Абонемент, июль',amount:'88 000'}]},
+    p4:{name:'Оспанов Марат',phone:'+7 705 443 9091',messenger:'WhatsApp',kids:['Петя Оспанов'],debt:0,payments:[
+      {date:'03 сен',desc:'Абонемент, сентябрь',amount:'88 000'},
+      {date:'03 авг',desc:'Абонемент, август',amount:'88 000'},
+      {date:'03 июл',desc:'Абонемент, июль',amount:'88 000'}]},
+    p5:{name:'Абенова Динара',phone:'+7 700 556 7712',messenger:'Instagram',kids:['Тимур Абенов'],debt:0,payments:[
+      {date:'01 сен',desc:'Абонемент, сентябрь',amount:'80 000'},
+      {date:'01 авг',desc:'Абонемент, август',amount:'80 000'},
+      {date:'01 июл',desc:'Абонемент, июль',amount:'80 000'}]},
+    p6:{name:'Ли Екатерина',phone:'+7 701 334 8820',messenger:'WhatsApp',kids:['Софья Ли'],debt:0,payments:[
+      {date:'02 сен',desc:'Абонемент, сентябрь',amount:'80 000'},
+      {date:'02 авг',desc:'Абонемент, август',amount:'80 000'},
+      {date:'02 июл',desc:'Абонемент, июль',amount:'80 000'}]},
+    p7:{name:'Байтасов Нурлан',phone:'+7 705 220 1147',messenger:'Telegram',kids:['Ерлан Байтасов'],debt:0,payments:[
+      {date:'01 сен',desc:'Абонемент, сентябрь',amount:'88 000'},
+      {date:'01 авг',desc:'Абонемент, август',amount:'88 000'},
+      {date:'25 авг',desc:'Индивидуальное диагностическое',amount:'12 000'}]},
+    p8:{name:'Ковалева Ольга',phone:'+7 701 990 3345',messenger:'WhatsApp',kids:['Настя Ковалева'],debt:0,payments:[
+      {date:'01 авг',desc:'Абонемент, август (частичный)',amount:'44 000'}]},
+    p9:{name:'Жаксыбеков Бекзат',phone:'+7 707 812 6634',messenger:'WhatsApp',kids:['Амир Жаксыбеков'],debt:0,payments:[
+      {date:'02 сен',desc:'Абонемент, сентябрь',amount:'80 000'},
+      {date:'02 авг',desc:'Абонемент, август',amount:'80 000'},
+      {date:'02 июл',desc:'Абонемент, июль',amount:'80 000'}]},
+    p10:{name:'Ким Алина',phone:'+7 701 456 9982',messenger:'Telegram',kids:['Полина Ким'],debt:0,payments:[
+      {date:'01 сен',desc:'Индивидуальные занятия',amount:'110 000'},
+      {date:'28 авг',desc:'Диагностическое занятие',amount:'15 000'}]}
   };
 
   groups = [
     {id:'g1',name:'Солнышко',childrenCount:6,capacity:8,days:'Пн · Ср · Пт',time:'09:00',trainer:'Анна Петрова',status:'Активна',attendance:92,revenue:'528 000',
-      sessions:[{date:'30 августа',attended:5,total:6},{date:'28 августа',attended:6,total:6},{date:'26 августа',attended:5,total:6}]},
+      nextSessionDate:'5 сентября (Пт)',nextSessionTime:'09:00',
+      sessions:[{date:'03 сентября',attended:5,total:6,time:'09:00',specialist:'Анна Петрова',room:'1'},
+                {date:'01 сентября',attended:6,total:6,time:'09:00',specialist:'Анна Петрова',room:'1'},
+                {date:'30 августа',attended:5,total:6,time:'09:00',specialist:'Анна Петрова',room:'1'},
+                {date:'28 августа',attended:6,total:6,time:'09:00',specialist:'Анна Петрова',room:'1'},
+                {date:'26 августа',attended:5,total:6,time:'09:00',specialist:'Анна Петрова',room:'1'}]},
     {id:'g2',name:'Радуга',childrenCount:5,capacity:8,days:'Пн · Ср · Пт',time:'12:00',trainer:'Сергей Ким',status:'Активна',attendance:84,revenue:'440 000',
-      sessions:[{date:'28 августа',attended:0,total:5},{date:'26 августа',attended:5,total:5}]},
+      nextSessionDate:'5 сентября (Пт)',nextSessionTime:'12:00',
+      sessions:[{date:'03 сентября',attended:0,total:5,time:'12:00',specialist:'Сергей Ким',room:'1'},
+                {date:'01 сентября',attended:4,total:5,time:'12:00',specialist:'Сергей Ким',room:'1'},
+                {date:'28 августа',attended:0,total:5,time:'12:00',specialist:'Сергей Ким',room:'1'},
+                {date:'26 августа',attended:5,total:5,time:'12:00',specialist:'Сергей Ким',room:'1'}]},
     {id:'g3',name:'Звёздочки',childrenCount:5,capacity:6,days:'Вт · Чт',time:'16:00',trainer:'Мария Ахметова',status:'Активна',attendance:90,revenue:'400 000',
-      sessions:[{date:'27 августа',attended:5,total:5},{date:'25 августа',attended:4,total:5}]},
+      nextSessionDate:'4 сентября (Чт)',nextSessionTime:'16:00',
+      sessions:[{date:'02 сентября',attended:5,total:5,time:'16:00',specialist:'Мария Ахметова',room:'3'},
+                {date:'29 августа',attended:4,total:5,time:'16:00',specialist:'Мария Ахметова',room:'3'},
+                {date:'27 августа',attended:5,total:5,time:'16:00',specialist:'Мария Ахметова',room:'3'},
+                {date:'25 августа',attended:4,total:5,time:'16:00',specialist:'Мария Ахметова',room:'3'}]},
     {id:'g4',name:'Ромашка',childrenCount:6,capacity:8,days:'Вт · Чт',time:'11:00',trainer:'Данияр Сапаров',status:'Активна',attendance:88,revenue:'480 000',
-      sessions:[{date:'27 августа',attended:5,total:6},{date:'25 августа',attended:6,total:6}]}
+      nextSessionDate:'4 сентября (Чт)',nextSessionTime:'11:00',
+      sessions:[{date:'02 сентября',attended:5,total:6,time:'11:00',specialist:'Данияр Сапаров',room:'3'},
+                {date:'29 августа',attended:6,total:6,time:'11:00',specialist:'Данияр Сапаров',room:'3'},
+                {date:'27 августа',attended:5,total:6,time:'11:00',specialist:'Данияр Сапаров',room:'3'},
+                {date:'25 августа',attended:6,total:6,time:'11:00',specialist:'Данияр Сапаров',room:'3'}]}
   ];
 
   employees = [
-    {id:'e1',name:'Анна Петрова',role:'Тренер · ABA-терапевт',avatarColor:'#6E56CF',sessionsToday:5,hoursToday:5,load:78,salary:{base:280000,bonus:30000,corrections:-5000,total:305000}},
-    {id:'e2',name:'Сергей Ким',role:'Тренер · физическая реабилитация',avatarColor:'#0A84FF',sessionsToday:4,hoursToday:4,load:62,salary:{base:250000,bonus:35000,corrections:0,total:285000}},
-    {id:'e3',name:'Мария Ахметова',role:'Логопед-дефектолог',avatarColor:'#FF9F0A',sessionsToday:3,hoursToday:3.5,load:55,salary:{base:220000,bonus:20000,corrections:0,total:240000}},
-    {id:'e4',name:'Данияр Сапаров',role:'Тренер · сенсорная интеграция',avatarColor:'#34C759',sessionsToday:4,hoursToday:4,load:70,salary:{base:210000,bonus:25000,corrections:-8000,total:227000}},
-    {id:'e5',name:'Гульнара Оспанова',role:'Психолог',avatarColor:'#AF52DE',sessionsToday:2,hoursToday:2,load:40,salary:{base:180000,bonus:10000,corrections:0,total:190000}}
+    {id:'e1',name:'Анна Петрова',role:'Тренер · ABA-терапевт',avatarColor:'#6E56CF',phone:'+7 701 555 0101',email:'anna.p@alau.kz',sessionsToday:5,hoursToday:5,load:78,salary:{base:280000,bonus:30000,corrections:-5000,total:305000},
+      todaySessions:[{time:'09:00',title:'Солнышко',subtitle:'Групповое · 6 детей',status:'confirmed',groupId:'g1'},{time:'10:30',title:'Миша Иванов',subtitle:'Индивидуальное',status:'confirmed',childId:'c1'},{time:'13:00',title:'Даша Ким',subtitle:'Индивидуальное',status:'confirmed',childId:'c3'},{time:'14:30',title:'Ерлан Байтасов',subtitle:'Индивидуальное',status:'pending',childId:'c7'},{time:'16:00',title:'Консультация',subtitle:'Родители Миши',status:'confirmed'}]},
+    {id:'e2',name:'Сергей Ким',role:'Тренер · физическая реабилитация',avatarColor:'#0A84FF',phone:'+7 707 555 0202',email:'sergey.k@alau.kz',sessionsToday:4,hoursToday:4,load:62,salary:{base:250000,bonus:35000,corrections:0,total:285000},
+      todaySessions:[{time:'10:00',title:'Петя Оспанов',subtitle:'Индивидуальное',status:'confirmed',childId:'c4'},{time:'12:00',title:'Радуга',subtitle:'Групповое · отменено',status:'cancelled',groupId:'g2'},{time:'14:00',title:'Алиса Смагулова',subtitle:'Индивидуальное',status:'pending',childId:'c2'},{time:'15:30',title:'Консультация',subtitle:'Родители Пети',status:'confirmed'}]},
+    {id:'e3',name:'Мария Ахметова',role:'Логопед-дефектолог',avatarColor:'#FF9F0A',phone:'+7 701 555 0303',email:'maria.a@alau.kz',sessionsToday:3,hoursToday:3.5,load:55,salary:{base:220000,bonus:20000,corrections:0,total:240000},
+      todaySessions:[{time:'09:30',title:'Софья Ли',subtitle:'Индивидуальное',status:'confirmed',childId:'c6'},{time:'11:00',title:'Диагностика',subtitle:'Новый ребёнок',status:'confirmed'},{time:'16:00',title:'Звёздочки',subtitle:'Групповое · 5 детей',status:'confirmed',groupId:'g3'}]},
+    {id:'e4',name:'Данияр Сапаров',role:'Тренер · сенсорная интеграция',avatarColor:'#34C759',phone:'+7 705 555 0404',email:'daniyar.s@alau.kz',sessionsToday:4,hoursToday:4,load:70,salary:{base:210000,bonus:25000,corrections:-8000,total:227000},
+      todaySessions:[{time:'09:00',title:'Тимур Абенов',subtitle:'Индивидуальное',status:'confirmed',childId:'c5'},{time:'11:00',title:'Ромашка',subtitle:'Групповое · 6 детей',status:'confirmed',groupId:'g4'},{time:'14:00',title:'Амир Жаксыбеков',subtitle:'Индивидуальное',status:'confirmed',childId:'c9'},{time:'15:30',title:'Подготовка материалов',subtitle:'Сенсорные наборы',status:'confirmed'}]},
+    {id:'e5',name:'Гульнара Оспанова',role:'Психолог',avatarColor:'#AF52DE',phone:'+7 700 555 0505',email:'gulnara.o@alau.kz',sessionsToday:2,hoursToday:2,load:40,salary:{base:180000,bonus:10000,corrections:0,total:190000},
+      todaySessions:[{time:'10:30',title:'Полина Ким',subtitle:'Индивидуальное',status:'confirmed',childId:'c10'},{time:'14:00',title:'Консультация родителей',subtitle:'Семья Абеновых',status:'confirmed'}]}
   ];
 
   timelineData = [
-    {time:'09:00',color:'#34C759',title:'Группа «Солнышко»',subtitle:'6 детей · Анна Петрова',screen:'groupProfile',id:'g1'},
-    {time:'10:30',color:'#34C759',title:'Индивидуальное',subtitle:'Миша Иванов · Анна Петрова',screen:'childProfile',id:'c1'},
-    {time:'12:00',color:'#FF3B30',title:'Отмена',subtitle:'Группа «Радуга»',screen:'groupProfile',id:'g2'},
-    {time:'14:00',color:'#FF9F0A',title:'Индивидуальное',subtitle:'Алиса Смагулова · требуется подтверждение',screen:'childProfile',id:'c2'},
-    {time:'16:00',color:'#34C759',title:'Группа «Звёздочки»',subtitle:'5 детей · Мария Ахметова',screen:'groupProfile',id:'g3'}
+    {time:'09:00',color:'#34C759',title:'Группа «Солнышко»',subtitle:'6 детей · Анна Петрова',sessionIdx:0},
+    {time:'10:30',color:'#34C759',title:'Индивидуальное',subtitle:'Миша Иванов · Анна Петрова',sessionIdx:1},
+    {time:'12:00',color:'#FF3B30',title:'Отмена',subtitle:'Группа «Радуга»',sessionIdx:3},
+    {time:'14:00',color:'#FF9F0A',title:'Индивидуальное',subtitle:'Алиса Смагулова · требуется подтверждение',sessionIdx:4},
+    {time:'16:00',color:'#34C759',title:'Группа «Звёздочки»',subtitle:'5 детей · Мария Ахметова',sessionIdx:5}
   ];
 
   notificationsData = [
-    {color:'#FF3B30',title:'Требует действия',body:'Тренер Анна не подтвердила занятие в 14:00',time:'2 мин назад'},
-    {color:'#FF9F0A',title:'Внимание',body:'У семьи Ивановых задолженность 45 000 ₸',time:'40 мин назад'},
-    {color:'#FF9F0A',title:'Внимание',body:'2 ребёнка не отметили посещение вчера',time:'1 ч назад'},
-    {color:'#0A84FF',title:'Информация',body:'Добавлен новый ребёнок: Полина Ким',time:'3 ч назад'},
-    {color:'#FF9F0A',title:'Внимание',body:'В группе «Ромашка» свободно 2 места',time:'вчера'},
-    {color:'#0A84FF',title:'Информация',body:'Занятие группы «Звёздочки» перенесено на 16:00',time:'вчера'}
+    {id:'n1',color:'#FF3B30',title:'Требует действия',body:'Тренер Анна не подтвердила занятие в 14:00',time:'2 мин назад',target:'childProfile',targetId:'c2'},
+    {id:'n2',color:'#FF9F0A',title:'Внимание',body:'У семьи Ивановых задолженность 45 000 ₸',time:'40 мин назад',target:'parentProfile',targetId:'p1'},
+    {id:'n3',color:'#FF9F0A',title:'Внимание',body:'2 ребёнка не отметили посещение вчера',time:'1 ч назад',target:'attendance',targetId:'g1'},
+    {id:'n4',color:'#0A84FF',title:'Информация',body:'Добавлен новый ребёнок: Полина Ким',time:'3 ч назад',target:'childProfile',targetId:'c10'},
+    {id:'n5',color:'#FF9F0A',title:'Внимание',body:'В группе «Ромашка» свободно 2 места',time:'вчера',target:'groupProfile',targetId:'g4'},
+    {id:'n6',color:'#0A84FF',title:'Информация',body:'Занятие группы «Звёздочки» перенесено на 16:00',time:'вчера',target:'groupProfile',targetId:'g3'}
   ];
 
-  goTo(screen, params) { this.setState({ screen, params: { ...params, returnTo: this.state.screen, returnTab: this.state.tab } }); }
-  back() { this.setState(s => ({ screen: s.params.returnTo ?? null, params: {} })); }
-  setTab(tab) { this.setState({ tab, screen: null, params: {} }); }
+  goTo(screen, params) {
+    this.setState(prev => ({
+      screen,
+      params: { ...params, returnTo: prev.screen, returnTab: prev.tab, returnParams: prev.params },
+      navStack: [...prev.navStack, { screen: prev.screen, tab: prev.tab, params: prev.params }]
+    }));
+  }
+
+  back() {
+    this.setState(prev => {
+      const stack = [...prev.navStack];
+      const last = stack.pop();
+      if (last) {
+        return { screen: last.screen, tab: last.tab, params: last.params || {}, navStack: stack };
+      }
+      return { screen: null, params: {}, navStack: [] };
+    });
+  }
+
+  setTab(tab) { this.setState({ tab, screen: null, params: {}, navStack: [] }); }
 
   renderVals() {
     const s = this.state;
     const initials = n => n.split(' ').slice(0,2).map(w=>w[0]).join('');
+
     const alertsRaw = [
-      {color:'#FF3B30',text:'Тренер Анна не подтвердила занятие 14:00',fn:()=>this.goTo('childProfile',{id:'c2'})},
+      {color:'#FF3B30',text:'Тренер Анна не подтвердила занятие 14:00',fn:()=>this.goTo('sessionDetail',{sessionIndex:4})},
       {color:'#FF9F0A',text:'2 ребёнка не отметили посещение',fn:()=>this.goTo('attendance',{id:'g1'})},
       {color:'#FF9F0A',text:'У группы «Ромашка» свободно 2 места',fn:()=>this.goTo('groupProfile',{id:'g4'})},
       {color:'#FF3B30',text:'У семьи Ивановых задолженность 45 000 ₸',fn:()=>this.goTo('parentProfile',{id:'p1'})}
     ];
     const alerts = alertsRaw.map(a => ({ color:a.color, text:a.text, onClick:a.fn }));
 
-    const timeline = this.timelineData.map(t => ({ ...t, onClick: () => this.goTo(t.screen, {id:t.id}) }));
+    const timeline = this.timelineData.map(t => ({ ...t, onClick: () => this.goTo('sessionDetail', {sessionIndex:t.sessionIdx}) }));
 
     // schedule
     const scheduleFull = [
-      {time:'09:00',title:'Солнышко',subtitle:'6 детей · Анна Петрова',type:'group',status:'confirmed',room:'1',price:'22 000'},
-      {time:'10:30',title:'Миша Иванов',subtitle:'Индивидуальное · Анна Петрова',type:'individual',status:'confirmed',room:'2',price:'15 000'},
-      {time:'11:00',title:'Ромашка',subtitle:'6 детей · Данияр Сапаров',type:'group',status:'confirmed',room:'3',price:'20 000'},
-      {time:'12:00',title:'Радуга',subtitle:'Отменено · Сергей Ким',type:'group',status:'cancelled',room:'1',price:'20 000'},
-      {time:'14:00',title:'Алиса Смагулова',subtitle:'Индивидуальное · Сергей Ким',type:'individual',status:'pending',room:'2',price:'15 000'},
-      {time:'16:00',title:'Звёздочки',subtitle:'5 детей · Мария Ахметова',type:'group',status:'confirmed',room:'3',price:'20 000'}
+      {time:'09:00',title:'Солнышко',subtitle:'6 детей · Анна Петрова',type:'group',status:'confirmed',room:'1',price:'22 000',specialist:'Анна Петрова',groupId:'g1'},
+      {time:'10:30',title:'Миша Иванов',subtitle:'Индивидуальное · Анна Петрова',type:'individual',status:'confirmed',room:'2',price:'15 000',specialist:'Анна Петрова',childId:'c1'},
+      {time:'11:00',title:'Ромашка',subtitle:'6 детей · Данияр Сапаров',type:'group',status:'confirmed',room:'3',price:'20 000',specialist:'Данияр Сапаров',groupId:'g4'},
+      {time:'12:00',title:'Радуга',subtitle:'Отменено · Сергей Ким',type:'group',status:'cancelled',room:'1',price:'20 000',specialist:'Сергей Ким',groupId:'g2'},
+      {time:'14:00',title:'Алиса Смагулова',subtitle:'Индивидуальное · Сергей Ким',type:'individual',status:'pending',room:'2',price:'15 000',specialist:'Сергей Ким',childId:'c2'},
+      {time:'16:00',title:'Звёздочки',subtitle:'5 детей · Мария Ахметова',type:'group',status:'confirmed',room:'3',price:'20 000',specialist:'Мария Ахметова',groupId:'g3'}
     ];
     const statusMap = { confirmed:{label:'Подтверждено',bg:'rgba(52,199,89,0.12)',color:'#248A3D'}, cancelled:{label:'Отменено',bg:'rgba(255,59,48,0.12)',color:'#D9291F'}, pending:{label:'Ожидание',bg:'rgba(255,159,10,0.14)',color:'#966000'} };
     let filtered = scheduleFull;
     if (s.scheduleFilter === 'group') filtered = scheduleFull.filter(x=>x.type==='group');
     if (s.scheduleFilter === 'individual') filtered = scheduleFull.filter(x=>x.type==='individual');
-    const scheduleSessions = filtered.map(x => ({ ...x, statusLabel:statusMap[x.status].label, statusBg:statusMap[x.status].bg, statusColor:statusMap[x.status].color, onClick:()=>{} }));
+    const scheduleSessions = filtered.map((x, idx) => {
+      const origIdx = scheduleFull.indexOf(x);
+      return { ...x, statusLabel:statusMap[x.status].label, statusBg:statusMap[x.status].bg, statusColor:statusMap[x.status].color,
+        onClick:()=>this.goTo('sessionDetail',{sessionIndex:origIdx}) };
+    });
 
     const chipsDef = [ ['all','Все'], ['group','Групповые'], ['individual','Индивидуальные'] ];
     const filterChips = chipsDef.map(([key,label]) => ({ label, onClick:()=>this.setState({scheduleFilter:key}),
@@ -754,6 +1187,37 @@ class Component extends DCLogic {
     const selGroup = this.groups.find(g=>g.id===s.params.id) || this.groups[0];
     const selGroupChildren = this.children.filter(c=>c.groupId===selGroup.id).map(c=>({ id:c.id, name:c.name, age:c.age, initials:initials(c.name), avatarColor:c.avatarColor, attendance:c.attendance, onClick:()=>this.goTo('childProfile',{id:c.id}) }));
 
+    const selGroupSessions = (selGroup.sessions||[]).map((ss,i) => {
+      const pct = ss.total > 0 ? Math.round(ss.attended/ss.total*100) : 0;
+      return { ...ss, time: ss.time || selGroup.time, specialist: ss.specialist || selGroup.trainer, room: ss.room || '1',
+        attendColor: pct >= 80 ? '#248A3D' : (pct >= 50 ? '#966000' : '#D9291F'),
+        barColor: pct >= 80 ? '#34C759' : (pct >= 50 ? '#FF9F0A' : '#FF3B30'),
+        barWidth: pct + '%',
+        onClick: () => {} };
+    });
+
+    const selGroupAttendBars = (selGroup.sessions||[]).slice(0,4).reverse().map(ss => {
+      const pct = ss.total > 0 ? Math.round(ss.attended/ss.total*100) : 0;
+      return { pct, height: pct + '%', color: pct >= 80 ? '#6E56CF' : '#FF9F0A', label: (ss.date||'').split(' ')[0] };
+    });
+
+    const selGroupMonthlyRevenue = [
+      {month:'Сентябрь 2026',amount:'120 000'},
+      {month:'Август 2026',amount: selGroup.revenue},
+      {month:'Июль 2026',amount: (parseInt((selGroup.revenue||'0').replace(/\s/g,''))*0.9).toLocaleString('ru-RU')}
+    ];
+
+    const selGroupChildPayments = this.children.filter(c=>c.groupId===selGroup.id).map(c => {
+      const p = this.parents[c.parentId];
+      const hasDbt = p && p.debt > 0;
+      return { name: c.name, statusLabel: hasDbt ? 'Долг '+p.debt.toLocaleString('ru-RU')+' ₸' : 'Оплачено', statusColor: hasDbt ? '#FF3B30' : '#248A3D' };
+    });
+
+    const selGroupDebtTotal = this.children.filter(c=>c.groupId===selGroup.id).reduce((sum,c) => {
+      const p = this.parents[c.parentId];
+      return sum + (p ? p.debt : 0);
+    }, 0);
+
     // child profile
     const selChild = this.children.find(c=>c.id===s.params.id) || this.children[0];
     const selParentForChild = this.parents[selChild.parentId];
@@ -761,9 +1225,20 @@ class Component extends DCLogic {
     // parent profile
     const selParentId = s.screen === 'parentProfile' ? s.params.id : selChild.parentId;
     const selParent = this.parents[selParentId] || this.parents.p1;
+    const selParentTotalPaid = selParent.payments.reduce((sum,p) => sum + parseInt((p.amount||'0').replace(/\s/g,'')), 0).toLocaleString('ru-RU');
 
     // employee profile
     const selEmp = this.employees.find(e=>e.id===s.params.id) || this.employees[0];
+    const selEmpTodaySessions = (selEmp.todaySessions||[]).map(es => ({
+      ...es,
+      statusBg: statusMap[es.status]?.bg || 'rgba(52,199,89,0.12)',
+      statusColor: statusMap[es.status]?.color || '#248A3D',
+      statusLabel: statusMap[es.status]?.label || 'Подтверждено',
+      onClick: () => {
+        if (es.groupId) this.goTo('groupProfile', {id: es.groupId});
+        else if (es.childId) this.goTo('childProfile', {id: es.childId});
+      }
+    }));
 
     // attendance
     const attendanceGroup = this.groups.find(g=>g.id===s.params.id) || this.groups[0];
@@ -781,23 +1256,99 @@ class Component extends DCLogic {
     const q = s.searchQuery.trim().toLowerCase();
     let searchResults = [];
     if (q) {
-      searchResults = [
-        ...this.children.filter(c=>c.name.toLowerCase().includes(q)).map(c=>({ name:c.name, type:'Ребёнок', initials:initials(c.name), avatarColor:c.avatarColor, onClick:()=>this.goTo('childProfile',{id:c.id}) })),
-        ...this.employees.filter(e=>e.name.toLowerCase().includes(q)).map(e=>({ name:e.name, type:'Сотрудник', initials:initials(e.name), avatarColor:e.avatarColor, onClick:()=>this.goTo('employeeProfile',{id:e.id}) })),
-        ...this.groups.filter(g=>g.name.toLowerCase().includes(q)).map(g=>({ name:g.name, type:'Группа', initials:initials(g.name), avatarColor:'#6E56CF', onClick:()=>this.goTo('groupProfile',{id:g.id}) }))
-      ];
+      const catFilter = s.searchCategory;
+      if (catFilter === 'all' || catFilter === 'children') {
+        searchResults.push(...this.children.filter(c=>c.name.toLowerCase().includes(q)).map(c=>({ name:c.name, type:'Ребёнок', initials:initials(c.name), avatarColor:c.avatarColor, onClick:()=>this.goTo('childProfile',{id:c.id}) })));
+      }
+      if (catFilter === 'all' || catFilter === 'employees') {
+        searchResults.push(...this.employees.filter(e=>e.name.toLowerCase().includes(q)).map(e=>({ name:e.name, type:'Сотрудник', initials:initials(e.name), avatarColor:e.avatarColor, onClick:()=>this.goTo('employeeProfile',{id:e.id}) })));
+      }
+      if (catFilter === 'all' || catFilter === 'groups') {
+        searchResults.push(...this.groups.filter(g=>g.name.toLowerCase().includes(q)).map(g=>({ name:g.name, type:'Группа', initials:initials(g.name), avatarColor:'#6E56CF', onClick:()=>this.goTo('groupProfile',{id:g.id}) })));
+      }
     }
 
-    const revenueBars = [
-      {label:'27',height:'55%',color:'#D9D5EE'},{label:'28',height:'70%',color:'#D9D5EE'},{label:'29',height:'40%',color:'#D9D5EE'},
-      {label:'30',height:'85%',color:'#D9D5EE'},{label:'31',height:'60%',color:'#D9D5EE'},{label:'01',height:'75%',color:'#D9D5EE'},{label:'02',height:'92%',color:'#6E56CF'}
+    const recentSearchItems = [
+      {name:'Миша Иванов',type:'Ребёнок',initials:'МИ',avatarColor:'#6E56CF',onClick:()=>this.goTo('childProfile',{id:'c1'})},
+      {name:'Солнышко',type:'Группа',initials:'Со',avatarColor:'#6E56CF',onClick:()=>this.goTo('groupProfile',{id:'g1'})},
+      {name:'Анна Петрова',type:'Сотрудник',initials:'АП',avatarColor:'#6E56CF',onClick:()=>this.goTo('employeeProfile',{id:'e1'})},
+      {name:'Алиса Смагулова',type:'Ребёнок',initials:'АС',avatarColor:'#FF9F0A',onClick:()=>this.goTo('childProfile',{id:'c2'})}
+    ];
+
+    const searchCatDef = [['all','Все'],['children','Дети'],['employees','Сотрудники'],['groups','Группы']];
+    const searchCategoryChips = searchCatDef.map(([key,label]) => ({
+      label, onClick:()=>this.setState({searchCategory:key}),
+      bg: s.searchCategory===key ? '#6E56CF' : '#fff', color: s.searchCategory===key ? '#fff' : '#3C3C43', border: s.searchCategory===key ? '#6E56CF' : 'rgba(60,60,67,0.12)'
+    }));
+
+    // session detail
+    const sessionIdx = s.params.sessionIndex ?? 0;
+    const sdSession = scheduleFull[sessionIdx] || scheduleFull[0];
+    const sdStatus = sdSession.status;
+    const sdSt = statusMap[sdStatus] || statusMap.confirmed;
+    const sdGroupChildren = sdSession.type === 'group' && sdSession.groupId
+      ? this.children.filter(c => c.groupId === sdSession.groupId).map(c => ({
+          name: c.name, initials: initials(c.name), avatarColor: c.avatarColor,
+          attendLabel: c.attendance >= 85 ? 'Посещает' : 'Нерегулярно',
+          attendColor: c.attendance >= 85 ? '#248A3D' : '#966000',
+          onClick: () => this.goTo('childProfile', {id: c.id})
+        }))
+      : [];
+
+    // notifications
+    const unreadCount = this.notificationsData.filter(n => !s.notificationRead[n.id]).length;
+    const notifications = this.notificationsData.map(n => ({
+      ...n,
+      unread: !s.notificationRead[n.id],
+      bg: s.notificationRead[n.id] ? '#fff' : 'rgba(110,86,207,0.04)',
+      onClick: () => this.goTo(n.target, {id: n.targetId}),
+      onMarkRead: (e) => { e && e.stopPropagation && e.stopPropagation(); this.setState(prev => ({notificationRead: {...prev.notificationRead, [n.id]: true}})); }
+    }));
+
+    // finance period
+    const fp = s.financePeriod || 'today';
+    const finData = {
+      today: { revenue:'245 000 ₸', expenses:'98 000 ₸', expected:'420 000 ₸', debt:'180 000 ₸', groupIncome:'172 000 ₸', indivIncome:'73 000 ₸', salaries:'−98 000 ₸', profit:'147 000 ₸', chartLabel:'Выручка по часам' },
+      week: { revenue:'1 480 000 ₸', expenses:'620 000 ₸', expected:'320 000 ₸', debt:'180 000 ₸', groupIncome:'1 020 000 ₸', indivIncome:'460 000 ₸', salaries:'−620 000 ₸', profit:'860 000 ₸', chartLabel:'Выручка по дням' },
+      month: { revenue:'5 820 000 ₸', expenses:'2 380 000 ₸', expected:'420 000 ₸', debt:'180 000 ₸', groupIncome:'4 120 000 ₸', indivIncome:'1 700 000 ₸', salaries:'−2 380 000 ₸', profit:'3 440 000 ₸', chartLabel:'Выручка по неделям' }
+    };
+    const fd = finData[fp];
+
+    const revenueBarsData = {
+      today: [{label:'09',height:'60%',color:'#D9D5EE'},{label:'10',height:'80%',color:'#D9D5EE'},{label:'11',height:'45%',color:'#D9D5EE'},{label:'12',height:'20%',color:'#D9D5EE'},{label:'14',height:'70%',color:'#D9D5EE'},{label:'15',height:'55%',color:'#D9D5EE'},{label:'16',height:'92%',color:'#6E56CF'}],
+      week: [{label:'Пн',height:'75%',color:'#D9D5EE'},{label:'Вт',height:'60%',color:'#D9D5EE'},{label:'Ср',height:'92%',color:'#6E56CF'},{label:'Чт',height:'0%',color:'#D9D5EE'},{label:'Пт',height:'0%',color:'#D9D5EE'},{label:'Сб',height:'0%',color:'#D9D5EE'},{label:'Вс',height:'0%',color:'#D9D5EE'}],
+      month: [{label:'27',height:'55%',color:'#D9D5EE'},{label:'28',height:'70%',color:'#D9D5EE'},{label:'29',height:'40%',color:'#D9D5EE'},{label:'30',height:'85%',color:'#D9D5EE'},{label:'31',height:'60%',color:'#D9D5EE'},{label:'01',height:'75%',color:'#D9D5EE'},{label:'02',height:'92%',color:'#6E56CF'}]
+    };
+    const revenueBars = revenueBarsData[fp];
+
+    const finExpenseCategories = [
+      {name:'Зарплаты',amount: fp==='today'?'78 000 ₸':(fp==='week'?'520 000 ₸':'2 100 000 ₸'),color:'#6E56CF'},
+      {name:'Аренда',amount: fp==='today'?'10 000 ₸':(fp==='week'?'50 000 ₸':'200 000 ₸'),color:'#0A84FF'},
+      {name:'Материалы',amount: fp==='today'?'5 000 ₸':(fp==='week'?'25 000 ₸':'45 000 ₸'),color:'#FF9F0A'},
+      {name:'Прочее',amount: fp==='today'?'5 000 ₸':(fp==='week'?'25 000 ₸':'35 000 ₸'),color:'#34C759'}
     ];
 
     const ratingStars = [1,2,3,4,5].map(n => ({ onClick:()=>this.setState({rating:n}), color: n<=s.rating ? '#FF9F0A' : '#E3E3E7' }));
 
-    const isModal = ['notifications','createSession','addChild','search','attendance','sessionComment'].includes(s.screen);
+    const isModal = ['notifications','createSession','addChild','search','attendance','sessionComment','sessionDetail','settings','toast'].includes(s.screen);
     const tabColor = t => s.tab===t && !s.screen ? '#6E56CF' : '#9A9AA0';
     const tabFill = t => s.tab===t && !s.screen ? 'rgba(110,86,207,0.12)' : 'none';
+
+    // toast
+    const toastMessages = {
+      addChild: {title:'Ребёнок добавлен',subtitle:'Данные сохранены в системе'},
+      createSession: {title:'Занятие создано',subtitle:'Добавлено в расписание'},
+      attendance: {title:'Посещение отмечено',subtitle:'Данные сохранены'},
+      export: {title:'Данные экспортированы',subtitle:'Файл отправлен на почту'}
+    };
+    const toastMsg = toastMessages[s.toastType] || {title:'Готово',subtitle:''};
+
+    // create session form
+    const sessTargetOptions = s.sessionType === 'individual'
+      ? this.children.filter(c=>c.status==='active').map(c=>({id:c.id, name:c.name}))
+      : this.groups.map(g=>({id:g.id, name:g.name}));
+    const sessSpecialistOptions = this.employees.map(e=>({id:e.id, name:e.name}));
+    const groupPickerOptions = this.groups.map(g=>({id:g.id, name:g.name + ' (' + g.childrenCount + '/' + g.capacity + ')'}));
 
     return {
       contentBottomPad: isModal ? '20px' : '110px',
@@ -807,10 +1358,25 @@ class Component extends DCLogic {
       showChildProfile: s.screen==='childProfile', showAddChild: s.screen==='addChild', showEmployeeProfile: s.screen==='employeeProfile',
       showFinance: s.screen==='finance', showParentProfile: s.screen==='parentProfile', showSearch: s.screen==='search',
       showAttendance: s.screen==='attendance', showComment: s.screen==='sessionComment',
+      showSessionDetail: s.screen==='sessionDetail', showSettings: s.screen==='settings', showToast: s.screen==='toast',
       showTabBar: !isModal, showFab: s.tab==='today' && !s.screen,
       alertCount: alerts.length, alerts, timeline,
       goToScheduleTab: () => this.setTab('schedule'),
-      openSearch: () => this.goTo('search'), openNotifications: () => this.goTo('notifications'), openFinance: () => this.goTo('finance'), back: () => this.back(),
+      openSearch: () => this.goTo('search'), openNotifications: () => this.goTo('notifications'), openFinance: () => this.goTo('finance'),
+      openSettings: () => this.goTo('settings'),
+      openAbout: () => this.goTo('settings'),
+      doLogout: () => this.setTab('today'),
+      back: () => this.back(),
+
+      // notifications
+      notifications,
+      hasUnreadNotifications: unreadCount > 0,
+      unreadNotificationCount: unreadCount,
+      markAllNotificationsRead: () => {
+        const allRead = {};
+        this.notificationsData.forEach(n => allRead[n.id] = true);
+        this.setState({notificationRead: allRead});
+      },
 
       setModeDay: () => this.setState({scheduleMode:'day'}), setModeWeek: () => this.setState({scheduleMode:'week'}),
       isWeekMode: s.scheduleMode==='week',
@@ -830,7 +1396,13 @@ class Component extends DCLogic {
       selGroupName: selGroup.name, selGroupDays: selGroup.days, selGroupTime: selGroup.time, selGroupTrainer: selGroup.trainer,
       selGroupChildrenCount: selGroup.childrenCount, selGroupCapacity: selGroup.capacity, selGroupAttendance: selGroup.attendance,
       selGroupFillPct: Math.round(selGroup.childrenCount/selGroup.capacity*100)+'%', selGroupRevenue: selGroup.revenue,
-      selGroupChildren, selGroupSessions: selGroup.sessions,
+      selGroupChildren, selGroupSessions,
+      selGroupNextSessionDate: selGroup.nextSessionDate || '5 сентября',
+      selGroupNextSessionTime: selGroup.nextSessionTime || selGroup.time,
+      selGroupAttendBars,
+      selGroupMonthlyRevenue,
+      selGroupChildPayments,
+      selGroupDebt: selGroupDebtTotal > 0 ? selGroupDebtTotal.toLocaleString('ru-RU') : '0',
       setGroupTabOverview: () => this.setState({groupTab:'overview'}), setGroupTabChildren: () => this.setState({groupTab:'children'}),
       setGroupTabSessions: () => this.setState({groupTab:'sessions'}), setGroupTabFinance: () => this.setState({groupTab:'finance'}),
       isGroupTabOverview: s.groupTab==='overview', isGroupTabChildren: s.groupTab==='children', isGroupTabSessions: s.groupTab==='sessions', isGroupTabFinance: s.groupTab==='finance',
@@ -849,30 +1421,114 @@ class Component extends DCLogic {
       selParentName: selParent.name, selParentKidsLabel: selParent.kids.length+' ' + (selParent.kids.length===1?'ребёнок':'ребёнка') + ' · ' + selParent.kids.join(', '),
       selParentPhone: selParent.phone, selParentMessenger: selParent.messenger, selParentHasDebt: selParent.debt>0,
       selParentDebt: selParent.debt.toLocaleString('ru-RU'), selParentPayments: selParent.payments,
+      selParentTotalPaid,
+      callParent: () => this.goTo('toast', {toastType:'call'}),
+      messageParent: () => this.goTo('toast', {toastType:'message'}),
 
       selEmpName: selEmp.name, selEmpRole: selEmp.role, selEmpInitials: initials(selEmp.name), selEmpAvatarColor: selEmp.avatarColor,
+      selEmpPhone: selEmp.phone || '+7 700 000 0000', selEmpEmail: selEmp.email || 'email@alau.kz',
       selEmpSessions: selEmp.sessionsToday, selEmpSessions2: selEmp.sessionsToday, selEmpHours: selEmp.hoursToday, selEmpLoad: selEmp.load,
       selEmpLoadColor: selEmp.load>=75?'#FF9F0A':'#1C1C1E',
       selEmpSalaryTotal: selEmp.salary.total.toLocaleString('ru-RU'), selEmpSalaryBase: selEmp.salary.base.toLocaleString('ru-RU'),
       selEmpSalaryBonus: selEmp.salary.bonus.toLocaleString('ru-RU'), selEmpSalaryCorrections: selEmp.salary.corrections.toLocaleString('ru-RU'),
       toggleSalary: () => this.setState(p=>({salaryExpanded:!p.salaryExpanded})), salaryExpanded: s.salaryExpanded,
       salaryChevronRotate: s.salaryExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+      selEmpTodaySessions,
+      selEmpWeekSummary: selEmp.sessionsToday * 5 + ' занятий на неделе',
 
+      // session detail
+      sdTime: sdSession.time, sdTitle: sdSession.title,
+      sdStatusLabel: sdSt.label, sdStatusBg: sdSt.bg, sdStatusColor: sdSt.color,
+      sdSpecialist: sdSession.specialist || '', sdRoom: 'Кабинет ' + sdSession.room,
+      sdTypeLabel: sdSession.type === 'group' ? 'Групповое' : 'Индивидуальное',
+      sdPrice: sdSession.price, sdIsGroup: sdSession.type === 'group',
+      sdGroupChildren,
+      sdNotes: s.sdNotes, onSdNotesChange: e => this.setState({sdNotes: e.target.value}),
+      sdGoAttendance: () => {
+        if (sdSession.type === 'group' && sdSession.groupId) this.goTo('attendance', {id: sdSession.groupId});
+        else this.goTo('toast', {toastType: 'attendance'});
+      },
+      sdToggleCancel: () => {
+        // In prototype just show feedback
+        if (sdSession.status === 'cancelled') {
+          this.goTo('toast', {toastType: 'sessionRestored'});
+        } else {
+          this.goTo('toast', {toastType: 'sessionCancelled'});
+        }
+      },
+      sdCancelBtnBg: sdSession.status === 'cancelled' ? 'rgba(52,199,89,0.1)' : 'rgba(255,59,48,0.08)',
+      sdCancelBtnColor: sdSession.status === 'cancelled' ? '#248A3D' : '#D9291F',
+      sdCancelBtnBorder: sdSession.status === 'cancelled' ? 'rgba(52,199,89,0.2)' : 'rgba(255,59,48,0.2)',
+      sdCancelBtnText: sdSession.status === 'cancelled' ? 'Восстановить' : 'Отменить',
+
+      // finance
+      finRevenue: fd.revenue, finExpenses: fd.expenses, finExpected: fd.expected, finDebt: fd.debt,
+      finGroupIncome: fd.groupIncome, finIndivIncome: fd.indivIncome, finSalaries: fd.salaries, finProfit: fd.profit,
+      finChartLabel: fd.chartLabel, finExpenseCategories,
       revenueBars,
+      setFinancePeriodToday: () => this.setState({financePeriod:'today'}),
+      setFinancePeriodWeek: () => this.setState({financePeriod:'week'}),
+      setFinancePeriodMonth: () => this.setState({financePeriod:'month'}),
+      fpTodayBg: fp==='today'?'#fff':'transparent', fpTodayColor: fp==='today'?'#1C1C1E':'#8A8A8E',
+      fpWeekBg: fp==='week'?'#fff':'transparent', fpWeekColor: fp==='week'?'#1C1C1E':'#8A8A8E',
+      fpMonthBg: fp==='month'?'#fff':'transparent', fpMonthColor: fp==='month'?'#1C1C1E':'#8A8A8E',
+      goToDebtors: () => this.goTo('parentProfile', {id:'p1'}),
 
+      // search
       searchQuery: s.searchQuery, onSearchChange: e => this.setState({searchQuery: e.target.value}),
-      hasSearchResults: searchResults.length>0, showSearchEmpty: q.length>0 && searchResults.length===0, searchResults,
+      hasSearchResults: searchResults.length>0,
+      showSearchEmpty: q.length>0 && searchResults.length===0,
+      showSearchRecent: !q,
+      showSearchCategories: true,
+      searchResults, recentSearchItems, searchCategoryChips,
 
+      // create session form
       sessGroupBg: s.sessionType!=='individual'?'#fff':'transparent', sessGroupColor: s.sessionType!=='individual'?'#1C1C1E':'#8A8A8E',
       sessIndivBg: s.sessionType==='individual'?'#fff':'transparent', sessIndivColor: s.sessionType==='individual'?'#1C1C1E':'#8A8A8E',
       setSessionTypeGroup: () => this.setState({sessionType:'group'}), setSessionTypeIndividual: () => this.setState({sessionType:'individual'}),
-      sessTargetLabel: s.sessionType==='individual' ? 'Ребёнок' : 'Группа', sessTargetValue: s.sessionType==='individual' ? 'Миша Иванов' : 'Солнышко',
+      sessTargetLabel: s.sessionType==='individual' ? 'Ребёнок' : 'Группа',
+      sessTargetOptions, sessSpecialistOptions, groupPickerOptions,
       sessPrice: s.sessionType==='individual' ? '15 000' : '20 000',
+      newSessionDate: s.newSessionDate, onNewSessionDateChange: e => this.setState({newSessionDate: e.target.value}),
+      newSessionTime: s.newSessionTime, onNewSessionTimeChange: e => this.setState({newSessionTime: e.target.value}),
+      newSessionTarget: s.newSessionTarget, onNewSessionTargetChange: e => this.setState({newSessionTarget: e.target.value}),
+      newSessionSpecialist: s.newSessionSpecialist, onNewSessionSpecialistChange: e => this.setState({newSessionSpecialist: e.target.value}),
+      newSessionRoom: s.newSessionRoom, onNewSessionRoomChange: e => this.setState({newSessionRoom: e.target.value}),
+      submitCreateSession: () => this.setState({screen:'toast', toastType:'createSession', navStack:[...s.navStack, {screen:'createSession',tab:s.tab,params:s.params}]}),
+
+      // add child form
+      newChildName: s.newChildName, onNewChildNameChange: e => this.setState({newChildName: e.target.value}),
+      newChildBirth: s.newChildBirth, onNewChildBirthChange: e => this.setState({newChildBirth: e.target.value}),
+      newChildParent: s.newChildParent, onNewChildParentChange: e => this.setState({newChildParent: e.target.value}),
+      newChildNotes: s.newChildNotes, onNewChildNotesChange: e => this.setState({newChildNotes: e.target.value}),
+      newChildGroup: s.newChildGroup, onNewChildGroupChange: e => this.setState({newChildGroup: e.target.value}),
+      submitAddChild: () => this.setState({screen:'toast', toastType:'addChild', navStack:[...s.navStack, {screen:'addChild',tab:s.tab,params:s.params}]}),
+
+      // comment form
+      commentText: s.commentText, onCommentTextChange: e => this.setState({commentText: e.target.value}),
+      recommendationText: s.recommendationText, onRecommendationTextChange: e => this.setState({recommendationText: e.target.value}),
 
       attendanceGroupName: attendanceGroup.name, attendanceChildren,
-      finishAttendance: () => this.goTo('sessionComment', {id: attendanceGroup.id}),
-      finishComment: () => this.setState({screen:null, tab:'schedule'}),
+      finishAttendance: () => this.setState({screen:'toast', toastType:'attendance', navStack:[...s.navStack, {screen:'attendance',tab:s.tab,params:s.params}]}),
+      finishComment: () => this.setState({screen:'toast', toastType:'attendance', navStack:[...s.navStack, {screen:'sessionComment',tab:s.tab,params:s.params}]}),
       ratingStars,
+
+      // toast
+      toastTitle: toastMsg.title,
+      toastSubtitle: toastMsg.subtitle,
+      toastDone: () => this.setTab(s.tab || 'today'),
+
+      // settings
+      toggleSettingsRooms: () => this.setState(p=>({settingsRoomsExpanded:!p.settingsRoomsExpanded})),
+      settingsRoomsExpanded: s.settingsRoomsExpanded,
+      settingsRoomsChevron: s.settingsRoomsExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+      toggleSettingsPrices: () => this.setState(p=>({settingsPricesExpanded:!p.settingsPricesExpanded})),
+      settingsPricesExpanded: s.settingsPricesExpanded,
+      settingsPricesChevron: s.settingsPricesExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+      toggleSettingsNotifications: () => this.setState(p=>({settingsNotificationsOn:!p.settingsNotificationsOn})),
+      settingsNotifBg: s.settingsNotificationsOn ? '#34C759' : '#E9E9EE',
+      settingsNotifPos: s.settingsNotificationsOn ? '22px' : '2px',
+      exportData: () => this.setState({screen:'toast', toastType:'export', navStack:[...s.navStack, {screen:'settings',tab:s.tab,params:s.params}]}),
 
       actionAddChild: () => this.goTo('addChild'), actionCreateSession: () => this.goTo('createSession'), actionAttendance: () => this.goTo('attendance',{id:'g1'}),
       showQuickActions: s.showQuickActions, toggleQuickActions: () => this.setState(p=>({showQuickActions:!p.showQuickActions})), closeQuickActions: () => this.setState({showQuickActions:false}),
